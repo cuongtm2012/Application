@@ -384,9 +384,10 @@ public class mainForm {
 
         btnSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                if(txtBeso11.getText().isEmpty()||(txtBeso21.getText().isEmpty())||(txtBeso31.getText().isEmpty()))
+                if(txtBeso11.getText().isEmpty()||(txtBeso21.getText().isEmpty())||(txtBeso31.getText().isEmpty())) {
                     JOptionPane.showMessageDialog(null, "Nhập số liệu vào các bể 1, 2, 3");
-                else
+                }
+                else {
                     beso11 = txtBeso11.getText();
                     beso12 = txtBeso12.getText();
                     tiepnhan1 = txtTiepNhanBs1.getText();
@@ -417,6 +418,7 @@ public class mainForm {
 
                     prd = dataReport();
                     new reportForm(prd);
+                }
             }
         });
     }
