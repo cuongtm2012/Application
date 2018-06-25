@@ -7,7 +7,19 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class App {
-    public static List<barem> readTextFile(String path) {
+
+    public static  void main(String[] args){
+        System.out.println("hi");
+        App app = new App();
+
+        String baremstr = app.getFileWithUtil("Data_Be1.txt");
+        List<barem> baremList = readBaremFile(baremstr);
+        Double a = findInBarem("23",baremList);
+        System.out.println(a);
+    }
+
+
+    public static List<barem> readBaremFile(String path) {
         List<barem> baremList = new ArrayList<>();
         barem baremObj = new barem();
         try {
@@ -46,7 +58,46 @@ public class App {
         return baremList;
     }
 
-    private String getFileWithUtil(String fileName) {
+    public static List<thanhphan> readThanhPhan(String path) {
+        List<thanhphan> thanhphanList = new ArrayList<>();
+        thanhphan thanhphan = new thanhphan();
+        try {
+            BufferedReader brTp = null;
+            FileReader frTp = null;
+            try {
+                frTp = new FileReader(path);
+                brTp = new BufferedReader(frTp);
+
+                String sCurrentLine;
+
+                while ((sCurrentLine = brTp.readLine()) != null) {
+                    if(sCurrentLine.contains("|")){
+                        System.out.println(sCurrentLine);
+                        thanhphan = parseThanhPhan(sCurrentLine);
+
+                        thanhphanList.add(thanhphan);
+                    }
+                }
+
+            } catch (Exception e) {
+                System.out.println(e);
+            } finally {
+                try {
+                    if (brTp != null)
+                        brTp.close();
+                    if (frTp != null)
+                        frTp.close();
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return thanhphanList;
+    }
+
+    public String getFileWithUtil(String fileName) {
         String path = "";
         ClassLoader classLoader = getClass().getClassLoader();
         try {
@@ -83,6 +134,35 @@ public class App {
         return baremObj;
     }
 
+    private static thanhphan parseThanhPhan(String inpString) {
+        thanhphan thanhphanObj = new thanhphan();
+        String stt = "";
+        String title = "";
+        String ten = "";
+        String chucvu = "";
+        try {
+            String[] arrInput = inpString.split("\\|");
+            for (int i = 0; i < arrInput.length; i++) {
+                if (i == 0) {
+                    stt = arrInput[0];
+                    thanhphanObj.setStt(stt);
+                } else if (i == 1) {
+                    title = arrInput[1];
+                    thanhphanObj.setTittle(title);
+                } else if (i == 2) {
+                    ten = arrInput[2];
+                    thanhphanObj.setTenNV(ten);
+                } else if (i == 3){
+                    chucvu = arrInput[3];
+                    thanhphanObj.setChucvu(chucvu);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return thanhphanObj;
+    }
+
     public static double convertVCF(String nhietdo){
         double vcf = 0.0;
         double nhietdoDb = 0.0;
@@ -105,7 +185,7 @@ public class App {
         double Vthucte = 0.0;
         try{
             for (int i = 0; i < baremList.size(); i++){
-                if(baremList.get(i).getH().contains(Htp)){
+                if(baremList.get(i).getH().equals(Htp)){
                     String Vstr = baremList.get(i).getV();
                     Vthucte = Double.parseDouble(Vstr);
                 }

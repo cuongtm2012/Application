@@ -1,9 +1,9 @@
 package calData;
 
 public class barem {
-    String h;
-    String v;
-    String vLe;
+    private String h;
+    private String v;
+    private String vLe;
     public String getH() {
         return h;
     }
